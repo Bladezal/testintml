@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Str;
 
+$database_url = "mysql://j5pvbnu9ov6ed3s7:jplipavo831gu78b@qf5dic2wzyjf1x5x.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/wapzluxcmirtgp6a";
+$database_settings = parse_url($database_url);
 return [
 
     /*
@@ -45,12 +47,12 @@ return [
 
         'mysql' => [
             'driver' => 'mysql',
-            'url' => env('DATABASE_URL'),
-            'host' => env('DB_HOST', '127.0.0.1'),
-            'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', 'forge'),
-            'username' => env('DB_USERNAME', 'forge'),
-            'password' => env('DB_PASSWORD', ''),
+            'url' => $database_url,
+            'host' => $database_settings["host"],
+            'port' => $database_settings["post"],
+            'database' => ltrim($database_settings["path"],"/"),
+            'username' => $database_settings["user"],
+            'password' => $database_settings["pass"],
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
