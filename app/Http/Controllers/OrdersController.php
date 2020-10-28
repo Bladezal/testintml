@@ -8,6 +8,6 @@ use App\Models\Order;
 class OrdersController extends Controller{
     public function index(){
         $orders = Order::all();
-        return view('Orders.index')->with('orders',$orders);
+        return view('pages.orders.index')->with('orders',$orders);
     }
 }
