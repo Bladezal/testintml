@@ -1,14 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="row">
-        <div class="col-lg-12 margin-tb">
-            <div class="pull-left">
-                <h2>Listado de Pedidos </h2>
-            </div>
-        </div>
-    </div>
-
+    <h2 class="mt-5">Listado de Pedidos </h2>
+    
     @if ($message = Session::get('success'))
         <div class="alert alert-success">
             <p></p>
@@ -48,4 +42,5 @@
         @endisset
     </table>
 
+    {{$app_id}}
 @endsection

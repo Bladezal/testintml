@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <a class="navbar-brand" id="logo" href="/">Single Malt</a>
     <ul class="navbar-nav">
         <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
