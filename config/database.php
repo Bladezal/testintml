@@ -49,7 +49,7 @@ return [
             'driver' => 'mysql',
             'url' => $database_url,
             'host' => $database_settings["host"],
-            'port' => $database_settings["post"],
+            'port' => $database_settings["port"],
             'database' => ltrim($database_settings["path"],"/"),
             'username' => $database_settings["user"],
             'password' => $database_settings["pass"],

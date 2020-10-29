@@ -1,1 +1,3 @@
-<div id="copyright text-right">© Copyright 2020 - Daniel Cazal</div>
+<div class="container">
+    <span class="text-muted">© Copyright 2020 - Daniel Cazal</span>
+</div>
