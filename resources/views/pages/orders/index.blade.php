@@ -42,5 +42,4 @@
         @endisset
     </table>
 
-    {{$app_id}}
 @endsection

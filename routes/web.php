@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountsController;
 use App\Http\Controllers\OrdersController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,3 +20,5 @@ Route::get('/', function () {
 });
 
 Route::get('orders',[OrdersController::class, 'index']);
+Route::get('getcode',[AccountsController::class, 'getCode']);
+Route::post('accountauth', [AccountsController::class, 'accountAuth']);
