@@ -14,11 +14,11 @@ class AccountsController extends Controller{
     }
 
     public function getCode(){
-        $response = Http::post('http://auth.mercadolibre.com.ar/authorization',[
+        return redirect()->away(Http::post('http://auth.mercadolibre.com.ar/authorization',[
             'response_type'=>'code',
             'client_id'=>Config::get('constants.APP_ID_ML'),
             'redirect_uri'=>'https://testintml.herokuapp.com/accountauth'
-        ]);
+        ]));
     }
 
     public function accountAuth(Request $request){
