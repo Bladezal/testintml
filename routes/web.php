@@ -20,5 +20,5 @@ Route::get('/', function () {
 });
 
 Route::get('orders',[OrdersController::class, 'index']);
-Route::get('getcode',[AccountsController::class, 'getCode']);
+Route::post('getcode',[AccountsController::class, 'getCode']);
 Route::post('accountauth', [AccountsController::class, 'accountAuth']);
