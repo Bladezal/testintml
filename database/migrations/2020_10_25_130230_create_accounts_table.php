@@ -17,7 +17,10 @@ class CreateAccountsTable extends Migration
             $table->id();
             $table->char('nickname',50);
             $table->bigInteger('acount_id');
+            $table->char('code',100);
             $table->char('access_token',100);
+            $table->char('refresh_token',100);
+            $table->dateTime('rftdate');
             $table->timestamps();
         });
     }
