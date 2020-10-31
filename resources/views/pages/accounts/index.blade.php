@@ -19,10 +19,10 @@
         @isset($accounts)
             @foreach ($accounts as $account)
                 <tr>
-                    <td>{{$account->}}</td>
-                    <td>{{$account->}}</td>
-                    <td>{{$account->}}</td>
-                    <td>{{$account->}}</td>
+                    <td>{{$account->id}}</td>
+                    <td>{{$account->nickname}}</td>
+                    <td>{{($account->access_token) ? "Vinculado" : "No Vinculado"}}</td>
+                    <td>{{$account->rftdate}}</td>
                 </tr>
             @endforeach
         @endisset
