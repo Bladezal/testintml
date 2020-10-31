@@ -35,7 +35,7 @@ class AccountsController extends Controller{
         return view('pages.accounts.addform');
     }
 
-    public function saveAcount(Request $data){
+    public function saveAccount(Request $data){
         $account = new Account;
         $account->nickname = $data->input('cuenta');
         $account->save();
