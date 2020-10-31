@@ -16,11 +16,11 @@ class CreateAccountsTable extends Migration
         Schema::create('cuentas', function (Blueprint $table) {
             $table->id();
             $table->char('nickname',50);
-            $table->bigInteger('acount_id');
-            $table->char('code',100);
-            $table->char('access_token',100);
-            $table->char('refresh_token',100);
-            $table->dateTime('rftdate');
+            $table->bigInteger('acount_id')->nullable();
+            $table->char('code',100)->nullable();
+            $table->char('access_token',100)->nullable();
+            $table->char('refresh_token',100)->nullable();
+            $table->dateTime('rftdate')->nullable();
             $table->timestamps();
         });
     }

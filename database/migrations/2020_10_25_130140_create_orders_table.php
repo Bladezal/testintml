@@ -24,8 +24,8 @@ class CreateOrdersTable extends Migration
             $table->char('first_name_order',100);
             $table->char('last_name_order',100);
             $table->bigInteger('shipping_id_order');
-            $table->text('notes',500);
-            $table->foreignId('intl_status');
+            $table->text('notes',500)->nullable();
+            $table->foreignId('intl_status')->nullable();
             $table->timestamps();
         });
     }
