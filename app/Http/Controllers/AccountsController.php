@@ -31,7 +31,7 @@ class AccountsController extends Controller{
     public function accountAuth(Request $data){
         $code = $data->input('code');
         $id_cuenta = $data->input('state');
-        $account = Account::where('id',$id_cuenta)->get();
+        $account = Account::find($id_cuenta);
         $account->code = $code;
         $url = 'https://api.mercadolibre.com/oauth/token';
         $head = [
@@ -47,10 +47,12 @@ class AccountsController extends Controller{
         ];
         $response = Http::withHeaders($head)->post($url,$body);
         $result = $response->json();
+        $account->acount_id = $result['user_id'];
         $account->access_token = $result['access_token'];
         $account->tkdate = today();
-        $account->save();
-        return redirect()->action('AccountsController@index');
+        var_dump($account);
+        //$account->save();
+        //return redirect()->action('AccountsController@index');
     }
 
     public function addAccount(){
