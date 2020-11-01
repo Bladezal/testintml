@@ -51,7 +51,7 @@ class AccountsController extends Controller{
         $account->access_token = $result['access_token'];
         $account->tkdate = date('Y-m-d H:i:s');
         $account->save();
-        return redirect()->action('AccountsController@index');
+        return redirect()->action(AccountsController::class,'index');
     }
 
     public function addAccount(){
