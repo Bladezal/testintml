@@ -49,7 +49,7 @@ class AccountsController extends Controller{
         $result = $response->json();
         $account->acount_id = $result['user_id'];
         $account->access_token = $result['access_token'];
-        $account->tkdate = today();
+        $account->tkdate = date('Y-m-d H:i:s');
         var_dump($account);
         //$account->save();
         //return redirect()->action('AccountsController@index');
