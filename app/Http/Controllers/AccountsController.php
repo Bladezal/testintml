@@ -52,7 +52,7 @@ class AccountsController extends Controller{
             ]);
         $response = $request->getBody();
 
-        print_r($response);
+        var_dump($response);
     }
 
     public function addAccount(){
