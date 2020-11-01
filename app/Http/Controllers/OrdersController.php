@@ -21,7 +21,8 @@ class OrdersController extends Controller{
         $account = Account::find($account_id);
         $url = Config::get('constants.base_ML_URI').'/orders/search?';
         $response = Http::withToken($account->access_token)->get($url.'seller='.$account->account_id);
-        /*foreach ($response->results as $order) {
+        $resultado = json_decode($response);
+        foreach ($resultado->results as $order) {
             $orden = Order::create([
                 'id_order' => $order->id,
                 'date_created_order' => $order->date_created,
@@ -45,8 +46,8 @@ class OrdersController extends Controller{
                 $itemOrder->save();
             }
         }
-        return view('pages.orders.vincsuccess');*/
-        echo $response;
+        return view('pages.orders.vincsuccess');
+        //echo $response;
     }
 
     public function getProductId($product){
