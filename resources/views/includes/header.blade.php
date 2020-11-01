@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <a class="navbar-brand" id="logo" href="/">
-        <img src="../../icons/home.jpg" width="30" height="30" alt="" loading="lazy">
+        <img src="home.jpg" width="30" height="30" alt="" loading="lazy">
     </a>
     <ul class="navbar-nav">
         <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
