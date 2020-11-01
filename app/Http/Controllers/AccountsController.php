@@ -47,7 +47,7 @@ class AccountsController extends Controller{
             'redirect_uri'=>Config::get('constants.redirect_URI')
         ];
         $response = Http::withHeaders($head)->post($url,$body);
-        $data['result'] = $response->successful();
+        $data['result'] = ($response->successful()) ? 'success' : 'danger';
         if ($response->successful()) {
             $data['msg'] = 'CUENTA VINCULADA EXITOSAMENTE';
         }else {
