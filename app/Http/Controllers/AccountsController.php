@@ -53,7 +53,7 @@ class AccountsController extends Controller{
             ]);*/
         //$response = $request->getBody();
         $response = Http::withHeaders($head)->post($url,$body);
-        var_dump($response);
+        var_dump($response->json());
     }
 
     public function addAccount(){
