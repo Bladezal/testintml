@@ -26,6 +26,7 @@
                     <td>{{$account->rftdate}}</td>
                     <th>@if (!$account->access_token)
                             <form name="vincularcuenta" id="vincularcuenta" method="post" action="{{url('getcode')}}">
+                                @csrf
                                 <input type="hidden" id="id_cuenta" name="id_cuenta" value="{{$account->id}}">
                                 <button type="submit" class="btn btn-primary">Vincular Cuenta</button>
                             </form>
