@@ -50,9 +50,8 @@ class AccountsController extends Controller{
         $account->acount_id = $result['user_id'];
         $account->access_token = $result['access_token'];
         $account->tkdate = date('Y-m-d H:i:s');
-        var_dump($account);
-        //$account->save();
-        //return redirect()->action('AccountsController@index');
+        $account->save();
+        return redirect()->action('AccountsController@index');
     }
 
     public function addAccount(){
