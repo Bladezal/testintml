@@ -21,14 +21,18 @@ class AccountsController extends Controller{
 
     }
 
-    public function getCode($id){
+    public function getCode(Request $data){
+        $id = $data->input('id_cuenta');
         return redirect('http://auth.mercadolibre.com.ar/authorization?'.
                         'response_type=code&client_id='.Config::get('constants.APP_ID_ML').'&state='.$id.
                         '&redirect_uri=https://testintml.herokuapp.com/accountauth');
     }
 
-    public function accountAuth(Request $request){
-        print_r($request);
+    public function accountAuth(Request $data){
+        $code = $data->input('code');
+        $id_cuenta = $data->input('State');
+        echo $code.', ';
+        echo $id_cuenta.'';
     }
 
     public function addAccount(){

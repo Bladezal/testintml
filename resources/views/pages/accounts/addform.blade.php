@@ -7,7 +7,6 @@
     </div>
     <div class="card-body">
       <form name="agregarcuenta" id="agregarcuenta" method="post" action="{{url('save_account')}}">
-       @csrf
         <div class="form-group">
           <label>Cuenta</label>
           <input type="text" id="cuenta" name="cuenta" class="form-control" required="">
