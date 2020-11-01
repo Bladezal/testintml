@@ -33,7 +33,8 @@ class AccountsController extends Controller{
         $id_cuenta = $data->input('state');
         $account = Account::where('id',$id_cuenta)->get();
         $account->code = $code;
-        $client = new GuzzleHttp\Client();
+        
+        //$client = new GuzzleHttp\Client();
         $url = 'https://api.mercadolibre.com/oauth/token';
         $head = [
             'accept'=>'application/json',
@@ -46,12 +47,12 @@ class AccountsController extends Controller{
             'code'=>$code,
             'redirect_uri'=>Config::get('constants.redirect_URI')
         ];
-        $request = $client->post($url, [
+        /*$request = $client->post($url, [
             'headers'=>$head,
             'form_params'=>$body
-            ]);
-        $response = $request->getBody();
-
+            ]);*/
+        //$response = $request->getBody();
+        $response = Http::withHeaders($head)->post($url,$body);
         var_dump($response);
     }
 
