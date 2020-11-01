@@ -35,6 +35,10 @@ class AccountsController extends Controller{
         $account->code = $code;
         $client = new GuzzleHttp\Client();
         $url = 'https://api.mercadolibre.com/oauth/token';
+        $head = [
+            'accept'=>'application/json',
+            'content-type'=>'application/x-www-form-urlencoded'
+        ];
         $body = [
             'grant_type'=>'authorization_code',
             'client_id'=>Config::get('constants.APP_ID_ML'),
@@ -42,7 +46,10 @@ class AccountsController extends Controller{
             'code'=>$code,
             'redirect_uri'=>Config::get('constants.redirect_URI')
         ];
-        $request = $client->post($url, ['body'=>$body]);
+        $request = $client->post($url, [
+            'headers'=>$head,
+            'form_params'=>$body
+            ]);
         $response = $request->send();
 
         print_r($response);
