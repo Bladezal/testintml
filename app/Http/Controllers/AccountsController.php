@@ -25,14 +25,27 @@ class AccountsController extends Controller{
         $id = $data->input('id_cuenta');
         return redirect('http://auth.mercadolibre.com.ar/authorization?'.
                         'response_type=code&client_id='.Config::get('constants.APP_ID_ML').'&state='.$id.
-                        '&redirect_uri=https://testintml.herokuapp.com/accountauth');
+                        '&redirect_uri='.Config::get('constants.redirect_URI'));
     }
 
     public function accountAuth(Request $data){
         $code = $data->input('code');
-        $id_cuenta = $data->input('State');
-        echo $code.', ';
-        echo $id_cuenta.'';
+        $id_cuenta = $data->input('state');
+        $account = Account::where('id',$id_cuenta)->get();
+        $account->code = $code;
+        $client = new GuzzleHttp\Client();
+        $url = 'https://api.mercadolibre.com/oauth/token';
+        $body = [
+            'grant_type'=>'authorization_code',
+            'client_id'=>Config::get('constants.APP_ID_ML'),
+            'client_secret'=>Config::get('constants.SECRET_KEY'),
+            'code'=>$code,
+            'redirect_uri'=>Config::get('constants.redirect_URI')
+        ];
+        $request = $client->post($url, ['body'=>$body]);
+        $response = $request->send();
+
+        print_r($response);
     }
 
     public function addAccount(){

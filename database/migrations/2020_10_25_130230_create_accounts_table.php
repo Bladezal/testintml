@@ -19,6 +19,7 @@ class CreateAccountsTable extends Migration
             $table->bigInteger('acount_id')->nullable();
             $table->char('code',100)->nullable();
             $table->char('access_token',100)->nullable();
+            $table->dateTime('tkdate')->nullable();
             $table->char('refresh_token',100)->nullable();
             $table->dateTime('rftdate')->nullable();
             $table->timestamps();
