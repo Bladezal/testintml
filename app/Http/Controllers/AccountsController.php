@@ -50,7 +50,7 @@ class AccountsController extends Controller{
             'headers'=>$head,
             'form_params'=>$body
             ]);
-        $response = $request->send();
+        $response = $request->getBody();
 
         print_r($response);
     }
