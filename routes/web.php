@@ -21,7 +21,7 @@ Route::get('/', function () {
 });
 
 Route::get('orders',[OrdersController::class, 'index']);
-Route::get('getcode',[AccountsController::class, 'getCode']);
+Route::post('getcode',[AccountsController::class, 'getCode']);
 Route::match(['get', 'post'],'accountauth', [AccountsController::class, 'accountAuth']);
 Route::get('addaccount',[AccountsController::class,'addAccount']);
 Route::post('save_account',[AccountsController::class,'saveAccount']);
