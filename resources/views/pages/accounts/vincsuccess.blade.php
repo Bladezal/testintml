@@ -1,7 +1,7 @@
 @include('layouts.app')
 
 @section('content')
-    <div class="alert alert-{{$message['result']}}">
-        <p>{{$message['msg']}}</p>
+    <div class="alert alert-{{$message['result']}}" role="alert">
+        {{$message['msg']}}
     </div>
 @endsection
