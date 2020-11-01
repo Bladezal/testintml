@@ -25,7 +25,7 @@
                                 <button type="submit" class="btn btn-primary">Vincular Cuenta</button>
                             </form>
                         @else
-                            <form name="obtenerpedidos" id="obtenerpedidos" method="post" action="{{url('getorders')}}">
+                            <form name="obtenerpedidos" id="obtenerpedidos" method="post" action="{{url('getmlorders')}}">
                                 @csrf
                                 <input type="hidden" id="id_cuenta" name="id_cuenta" value="{{$account->id}}">
                                 <button type="submit" class="btn btn-success">Obtener Pedidos</button>

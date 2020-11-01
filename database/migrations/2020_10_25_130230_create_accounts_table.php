@@ -16,7 +16,7 @@ class CreateAccountsTable extends Migration
         Schema::create('cuentas', function (Blueprint $table) {
             $table->id();
             $table->char('nickname',50);
-            $table->bigInteger('acount_id')->nullable();
+            $table->bigInteger('account_id')->nullable();
             $table->char('code',100)->nullable();
             $table->char('access_token',100)->nullable();
             $table->dateTime('tkdate')->nullable();

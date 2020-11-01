@@ -34,7 +34,7 @@ class AccountsController extends Controller{
         $id_cuenta = $data->input('state');
         $account = Account::find($id_cuenta);
         $account->code = $code;
-        $url = 'https://api.mercadolibre.com/oauth/token';
+        $url = Config::get('constants.base_ML_URI').'/oauth/token';
         $head = [
             'accept'=>'application/json',
             'content-type'=>'application/x-www-form-urlencoded'
@@ -54,9 +54,11 @@ class AccountsController extends Controller{
             $data['msg'] = 'Ha ocurrido un error, favor vuelva a intentarlo o de lo contrario pongase en contacto con el Administrador.';
         }
         $result = $response->json();
-        $account->acount_id = $result['user_id'];
+        $account->account_id = $result['user_id'];
         $account->access_token = $result['access_token'];
         $account->tkdate = date('Y-m-d H:i:s');
+        $account->refresh_token = $result['refresh_token'];
+        $account->rftdate = date('Y-m-d H:i:s');
         $account->save();
         return view('pages.accounts.vincsuccess')->with('message',$data);
     }

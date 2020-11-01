@@ -26,3 +26,4 @@ Route::match(['get', 'post'],'accountauth', [AccountsController::class, 'account
 Route::get('addaccount',[AccountsController::class,'addAccount']);
 Route::post('save_account',[AccountsController::class,'saveAccount']);
 Route::get('accounts',[AccountsController::class,'index']);
+Route::post('getmlorders',[OrdersController::class,'getMLOrders']);
