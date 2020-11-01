@@ -9,6 +9,7 @@ use GuzzleHttp;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Redirect;
+use PhpParser\Node\Stmt\Else_;
 
 class AccountsController extends Controller{
     public function index(){
@@ -46,12 +47,18 @@ class AccountsController extends Controller{
             'redirect_uri'=>Config::get('constants.redirect_URI')
         ];
         $response = Http::withHeaders($head)->post($url,$body);
+        $data['result'] = $response->successful();
+        if ($response->successful()) {
+            $data['msg'] = 'CUENTA VINCULADA EXITOSAMENTE';
+        }else {
+            $data['msg'] = 'Ha ocurrido un error, favor vuelva a intentarlo o de lo contrario pongase en contacto con el Administrador.';
+        }
         $result = $response->json();
         $account->acount_id = $result['user_id'];
         $account->access_token = $result['access_token'];
         $account->tkdate = date('Y-m-d H:i:s');
         $account->save();
-        return redirect()->action(AccountsController::class,'index');
+        return view('pages.accounts.vincsuccess')->with('message',$data);
     }
 
     public function addAccount(){
