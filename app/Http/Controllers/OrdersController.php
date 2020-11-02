@@ -35,7 +35,7 @@ class OrdersController extends Controller{
                 'shipping_id_order' => $order->shipping->id,
             ]);
             $orden->save();
-            foreach ($order->order_items as $item) {
+            /* foreach ($order->order_items as $item) {
                 $itemOrder = OrderProduct::create([
                     'order_id' => $orden->id,
                     'product_id' => $item->item->id,
@@ -43,8 +43,8 @@ class OrdersController extends Controller{
                     'unit_price' => $item->unit_price,
                     'currency_id' => $item->currency_id
                 ]);
-                $itemOrder->save();
-            }
+                $itemOrder->save(); 
+            }*/
         }
         return view('pages.orders.vincsuccess');
         //echo $response;
