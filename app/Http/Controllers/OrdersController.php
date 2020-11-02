@@ -25,8 +25,8 @@ class OrdersController extends Controller{
         foreach ($resultado->results as $order) {
             $orden = Order::create([
                 'id_order' => $order->id,
-                'date_created_order' => $order->date_created,
-                'date_closed_order' => $order->date_closed,
+                'date_created_order' => date('Y-m-d H:i:s', strtotime($order->date_created)),
+                'date_closed_order' => date('Y-m-d H:i:s', strtotime($order->date_closed)),
                 'status_order' => $order->status,
                 'total_amount_order' => $order->total_amount,
                 'currency_id' => $order->currency_id,
