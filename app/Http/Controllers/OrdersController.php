@@ -39,7 +39,7 @@ class OrdersController extends Controller{
             $shipping = Http::withToken($account->access_token)
                         ->get(Config::get('constants.base_ML_URI').'/shipments/'.$order->shipping->id);
             $shipping_detail = json_decode($shipping);
-            $orden->shipping_type_order = $shipping_detail->lead_time->shipping_option->name;
+            $orden->shipping_type_order = $shipping_detail->shipping_option->name;
             $orden->save();
         }
         return view('pages.orders.vincsuccess');
