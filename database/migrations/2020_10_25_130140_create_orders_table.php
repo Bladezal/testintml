@@ -22,7 +22,7 @@ class CreateOrdersTable extends Migration
             $table->char('first_name_order',100);
             $table->char('last_name_order',100);
             $table->char('shipping_type_order',100)->nullable();
-            $table->text('detail_order')->nullable();
+            $table->json('detail_order')->nullable();
             $table->text('notes',500)->nullable();
             $table->foreignId('intl_status')->nullable();
             $table->timestamps();

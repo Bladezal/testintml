@@ -23,7 +23,7 @@ class OrdersController extends Controller{
         $response = Http::withToken($account->access_token)->get($url.'seller='.$account->account_id);
         $resultado = json_decode($response);
          foreach ($resultado->results as $order) {
-             $order_detail = json_encode($order->order_items);
+            $order_detail = json_encode($order->order_items);
             $orden = Order::create([
                 'id_order' => $order->id,
                 'date_created_order' => date('Y-m-d H:i:s', strtotime($order->date_created)),
