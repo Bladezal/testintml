@@ -17,13 +17,12 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->bigInteger('id_order');
             $table->dateTime('date_created_order');
-            $table->dateTime('date_closed_order');
-            $table->char('status_order',50);
             $table->float('total_amount_order',8,2);
-            $table->char('currency_id',3);
+            $table->char('reason_order',250);
             $table->char('first_name_order',100);
             $table->char('last_name_order',100);
-            $table->bigInteger('shipping_id_order');
+            $table->char('shipping_type_order',100);
+            $table->text('detail_order');
             $table->text('notes',500)->nullable();
             $table->foreignId('intl_status')->nullable();
             $table->timestamps();

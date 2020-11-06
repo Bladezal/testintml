@@ -26,25 +26,24 @@ class OrdersController extends Controller{
             $orden = Order::create([
                 'id_order' => $order->id,
                 'date_created_order' => date('Y-m-d H:i:s', strtotime($order->date_created)),
-                'date_closed_order' => date('Y-m-d H:i:s', strtotime($order->date_closed)),
-                'status_order' => $order->status,
                 'total_amount_order' => $order->total_amount,
-                'currency_id' => $order->currency_id,
                 'first_name_order' => $order->buyer->first_name,
                 'last_name_order' => $order->buyer->last_name,
-                'shipping_id_order' => $order->shipping->id,
+                'detail_order' => json_encode($order->order_items),
             ]);
+            $reason = [];
+            foreach ($order->order_items as $item) {
+                $reason[] = $item->item->id; 
+            }
+            $orden->reason_order = rtrim(implode(',',$reason),',');
+            $shipping = Http::withToken($account->access_token)
+                        ->get(Config::get('constants.base_ML_URI').'/shipments/'.$order->shipping->id);
+            $shipping_detail = json_decode($shipping);
+            var_dump($shipping_detail);
+            die();
+            $orden->shipping_type_order = $shipping_detail->lead_time->shipping_method->name;
             $orden->save();
-            /* foreach ($order->order_items as $item) {
-                $itemOrder = OrderProduct::create([
-                    'order_id' => $orden->id,
-                    'product_id' => $item->item->id,
-                    'cant' => $item->quantity,
-                    'unit_price' => $item->unit_price,
-                    'currency_id' => $item->currency_id
-                ]);
-                $itemOrder->save(); 
-            }*/
+            
         }
         return view('pages.orders.vincsuccess');
         //echo $response;
