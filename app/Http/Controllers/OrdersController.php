@@ -23,17 +23,18 @@ class OrdersController extends Controller{
         $response = Http::withToken($account->access_token)->get($url.'seller='.$account->account_id);
         $resultado = json_decode($response);
          foreach ($resultado->results as $order) {
+             $order_detail = json_encode($order->order_items);
             $orden = Order::create([
                 'id_order' => $order->id,
                 'date_created_order' => date('Y-m-d H:i:s', strtotime($order->date_created)),
                 'total_amount_order' => $order->total_amount,
                 'first_name_order' => $order->buyer->first_name,
                 'last_name_order' => $order->buyer->last_name,
-                'detail_order' => json_encode($order->order_items),
+                'detail_order' => $order_detail,
             ]);
             $reason = [];
             foreach ($order->order_items as $item) {
-                $reason[] = $item->item->id; 
+                $reason[] = $item->item->title; 
             }
             $orden->reason_order = rtrim(implode(',',$reason),',');
             $shipping = Http::withToken($account->access_token)
