@@ -38,11 +38,11 @@ class OrdersController extends Controller{
             $orden->reason_order = rtrim(implode(',',$reason),',');
             $shipping = Http::withToken($account->access_token)
                         ->get(Config::get('constants.base_ML_URI').'/shipments/'.$order->shipping->id);
-            $shipping_detail = json_decode($shipping);
-            echo $shipping_detail;
+            //$shipping_detail = json_decode($shipping);
+            echo $shipping;
             die();
-            $orden->shipping_type_order = $shipping_detail->lead_time->shipping_method->name;
-            $orden->save();
+            //$orden->shipping_type_order = $shipping_detail->lead_time->shipping_method->name;
+            //$orden->save();
             
         }
         return view('pages.orders.vincsuccess');
