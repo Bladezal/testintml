@@ -39,7 +39,7 @@ class OrdersController extends Controller{
             $shipping = Http::withToken($account->access_token)
                         ->get(Config::get('constants.base_ML_URI').'/shipments/'.$order->shipping->id);
             $shipping_detail = json_decode($shipping);
-            var_dump($shipping_detail);
+            echo $shipping_detail;
             die();
             $orden->shipping_type_order = $shipping_detail->lead_time->shipping_method->name;
             $orden->save();
