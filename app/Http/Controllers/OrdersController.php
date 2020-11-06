@@ -21,8 +21,10 @@ class OrdersController extends Controller{
         $account = Account::find($account_id);
         $url = Config::get('constants.base_ML_URI').'/orders/search?';
         $response = Http::withToken($account->access_token)->get($url.'seller='.$account->account_id);
+        echo $response;
+        die();
         $resultado = json_decode($response);
-        foreach ($resultado->results as $order) {
+        /* foreach ($resultado->results as $order) {
             $orden = Order::create([
                 'id_order' => $order->id,
                 'date_created_order' => date('Y-m-d H:i:s', strtotime($order->date_created)),
@@ -38,13 +40,11 @@ class OrdersController extends Controller{
             $orden->reason_order = rtrim(implode(',',$reason),',');
             $shipping = Http::withToken($account->access_token)
                         ->get(Config::get('constants.base_ML_URI').'/shipments/'.$order->shipping->id);
-            //$shipping_detail = json_decode($shipping);
-            echo $shipping;
-            die();
-            //$orden->shipping_type_order = $shipping_detail->lead_time->shipping_method->name;
-            //$orden->save();
+            $shipping_detail = json_decode($shipping);
+            $orden->shipping_type_order = $shipping_detail->lead_time->shipping_option->name;
+            $orden->save();
             
-        }
+        } */
         return view('pages.orders.vincsuccess');
         //echo $response;
     }
