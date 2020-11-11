@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\Product;
+use App\Models\Status;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 
@@ -54,5 +55,21 @@ class OrdersController extends Controller{
             # code...
         }
         return $producto;
+    }
+
+    public function getJSONOrder(Request $request){
+        $order = Order::find($request->id);
+        return response()->json($order);
+    }
+
+    public function getOrderDetail(Request $request){
+        $order = Order::find($request->id);
+        $status = Status::all();
+        if (!$order) {
+            return response()->json(['result'=>false, 'msg'=>'Orden no encontrada']);
+        }
+        $detail = json_decode($order->detail_order);
+        $view = view('pages.orders.orderdetail')->with(['order'=>$order, 'detail'=>$detail, 'status'=>$status])->render();
+        return response()->json(['result'=>true, 'view'=>$view]);
     }
 }

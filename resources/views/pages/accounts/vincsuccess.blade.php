@@ -1,4 +1,4 @@
-@include('layouts.app')
+@extends('layouts.app')
 
 @section('content')
     <div class="alert alert-{{$message['result']}}" role="alert">

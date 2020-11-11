@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AccountsController;
 use App\Http\Controllers\OrdersController;
+use App\Http\Controllers\StatusController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,3 +28,7 @@ Route::get('addaccount',[AccountsController::class,'addAccount']);
 Route::post('save_account',[AccountsController::class,'saveAccount']);
 Route::get('accounts',[AccountsController::class,'index']);
 Route::post('getmlorders',[OrdersController::class,'getMLOrders']);
+Route::get('jsonorder/{id}', [OrdersController::class, 'getJSONOrder']);
+Route::get('orderdetail/{id}',[OrdersController::class, 'getOrderDetail']);
+Route::get('status',[StatusController::class, 'index']);
+Route::post('status/add', [StatusController::class, 'addStatus']);

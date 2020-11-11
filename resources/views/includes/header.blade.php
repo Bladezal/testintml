@@ -15,6 +15,6 @@
                 <a class="dropdown-item" href="#">Eliminar Cuenta</a>
               </div>
         </li>
-        <li class="nav-item"><a class="nav-link" href="#">Productos</a></li>
+        <li class="nav-item"><a class="nav-link" href="status">Estados</a></li>
     </ul>
 </nav>
