@@ -46,6 +46,7 @@
         <div class="card border-secondary">
             <div class="card-body text-secondary">
                 <form>
+                    @csrf
                     <input type="hidden" id="orderid" value="{{$order->id}}">
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Id Pedido: </label>
