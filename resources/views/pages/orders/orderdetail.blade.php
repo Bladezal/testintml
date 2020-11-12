@@ -26,11 +26,7 @@
         <form>
             <div class="form-group">
                 <label>Notas: </label>
-                <textarea class="form-control" id="ordernotes" rows="3">
-                    @isset($order->notes)
-                    {{$order->notes}}    
-                    @endisset
-                </textarea>
+                <textarea class="form-control" id="ordernotes" rows="3">@isset($order->notes){{$order->notes}}@endisset</textarea>
             </div>
             <div class="form-group">
                 <label>Estado: </label>

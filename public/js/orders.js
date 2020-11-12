@@ -29,7 +29,7 @@ $(document).ready(function(){
                     status: $("#orderstatus").val()},
             success: function(data) {
                 if (data.success) {
-                    //$('#modalDetalle').modal('toggle');
+                    $('#modalDetalle').modal('toggle');
                     location.reload();
                 }
             }
