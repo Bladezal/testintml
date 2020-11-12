@@ -32,3 +32,4 @@ Route::get('jsonorder/{id}', [OrdersController::class, 'getJSONOrder']);
 Route::get('orderdetail/{id}',[OrdersController::class, 'getOrderDetail']);
 Route::get('status',[StatusController::class, 'index']);
 Route::post('status/add', [StatusController::class, 'addStatus']);
+Route::post('orderupdate', [OrdersController::class, 'upd_order']);

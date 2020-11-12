@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\Product;
 use App\Models\Status;
+use App\Models\StatusHistory;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 
@@ -47,14 +48,19 @@ class OrdersController extends Controller{
         return view('pages.orders.vincsuccess');
     }
 
-    public function getProductId($product){
-        $producto = Product::where('product_id',$product)->get();
-        if (!$producto) {
-            # code...
-        } else {
-            # code...
+    public function upd_order(Request $request){
+        $order = Order::find($request->orderId);
+        $hist_status = StatusHistory::create([
+            'old_status_id' => (!empty($order->intl_status) ? $order->intl_status : '-1'),
+            'new_status_id' => $request->status
+        ]);
+        if (!$hist_status) {
+            return response()->json(['result'=>false, 'msg'=>'Error al guardar el cambio.']);
         }
-        return $producto;
+        $order->notes = $request->notes;
+        $order->intl_status = $request->status;
+        $order->save();
+        return response()->json(['result'=>true, 'msg'=>'Cambios guardados correctamente.']);
     }
 
     public function getJSONOrder(Request $request){
