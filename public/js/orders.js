@@ -28,7 +28,7 @@ $(document).ready(function(){
                     notes: $("#ordernotes").val(),
                     status: $("#orderstatus").val()},
             success: function(data) {
-                if (data.success) {
+                if (data.result) {
                     $('#modalDetalle').modal('hide');
                     location.reload();
                 }
