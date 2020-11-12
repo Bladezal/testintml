@@ -51,7 +51,7 @@ class OrdersController extends Controller{
     public function upd_order(Request $request){
         $order = Order::find($request->orderId);
         $hist_status = StatusHistory::create([
-            'old_status_id' => (!empty($order->intl_status) ? $order->intl_status : '-1'),
+            'old_status_id' => (!empty($order->intl_status) ? $order->intl_status : $request->status),
             'new_status_id' => $request->status
         ]);
         if (!$hist_status) {
