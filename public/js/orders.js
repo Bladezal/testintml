@@ -1,6 +1,5 @@
 $(document).ready(function(){
     $('#modalDetalle').on('show.bs.modal',function(e) {
-        /* e.preventDefault(); */
         var boton = $(e.relatedTarget);
         var orderId = boton.data('orderid');
 
