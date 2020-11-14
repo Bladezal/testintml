@@ -25,6 +25,8 @@ class OrdersController extends Controller{
         //$url = Config::get('constants.base_ML_URI').'/orders/search?';
         //$response = Http::withToken($account->access_token)->get($url.'seller='.$account->account_id);
         $resultado = $this->mlRequest($account->access_token,'/orders/search?',('seller='.$account->account_id));//json_decode($response);
+        print_r($resultado);
+        die('---');
         $offset = 0;
         $limit = intval($resultado->paging->limit);
         $total = intval($resultado->paging->total);
