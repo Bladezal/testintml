@@ -100,6 +100,8 @@ class OrdersController extends Controller{
         $params = $this->prepareMLAuth('refresh_token',$account->refresh_token);
         $result = $this->mlPostRequest($params['head'],$params['body'],$params['method']);
         $resultado = $result->json();
+        var_dump($resultado);
+        die('---');
         $account->refresh_token = $resultado->refresh_token;
         $account->access_token = $resultado->access_token;
         $account->save();
