@@ -5,12 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Account;
 use Illuminate\Http\Request;
 use App\Models\Order;
-use App\Models\OrderProduct;
-use App\Models\Product;
 use App\Models\Status;
 use App\Models\StatusHistory;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Http;
+use App\Http\Controllers\AccountsController;
 
 class OrdersController extends Controller{
 
@@ -24,7 +22,11 @@ class OrdersController extends Controller{
         $account = Account::find($account_id);
         //$url = Config::get('constants.base_ML_URI').'/orders/search?';
         //$response = Http::withToken($account->access_token)->get($url.'seller='.$account->account_id);
-        $resultado = $this->mlRequest($account->access_token,'/orders/search?',('seller='.$account->account_id));//json_decode($response);
+        $resultado = json_decode($this->mlGetRequest($account->access_token,'/orders/search?',('seller='.$account->account_id)));//json_decode($response);
+        if (isset($resultado->error) && $resultado->message = 'Invalid token') {
+            $account = $this->refreshToken($account);
+            $resultado = json_decode($this->mlGetRequest($account->access_token,'/orders/search?',('seller='.$account->account_id)));
+        }
         var_dump($resultado);
         die('---');
         $offset = 0;
@@ -94,8 +96,13 @@ class OrdersController extends Controller{
         return response()->json(['result'=>true, 'view'=>$view]);
     }
 
-    public function mlRequest($token, $method, $params = NULL){
-        $baseURL = Config::get('constants.base_ML_URI');
-        return json_decode(Http::withToken($token)->get($baseURL.$method.$params));
+    public function refreshToken($account){
+        $result = redirect()->action([AccountsController::class, 'mlAuth'],
+                                     ['authType'=>'refresh_token','code',$account->refresh_token]);
+        $resultado = json_decode($result);
+        $account->refresh_token = $resultado->refresh_token;
+        $account->access_token = $resultado->access_token;
+        $account->save();
+        return $account;
     }
 }

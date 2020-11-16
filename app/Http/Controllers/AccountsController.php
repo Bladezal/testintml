@@ -5,11 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Account;
 use Illuminate\Http\Request;
 
-use GuzzleHttp;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Redirect;
-use PhpParser\Node\Stmt\Else_;
 
 class AccountsController extends Controller{
     public function index(){
@@ -34,7 +30,7 @@ class AccountsController extends Controller{
         $id_cuenta = $data->input('state');
         $account = Account::find($id_cuenta);
         $account->code = $code;
-        $url = Config::get('constants.base_ML_URI').'/oauth/token';
+        /* $url = Config::get('constants.base_ML_URI').'/oauth/token';
         $head = [
             'accept'=>'application/json',
             'content-type'=>'application/x-www-form-urlencoded'
@@ -45,8 +41,8 @@ class AccountsController extends Controller{
             'client_secret'=>Config::get('constants.SECRET_KEY'),
             'code'=>$code,
             'redirect_uri'=>Config::get('constants.redirect_URI')
-        ];
-        $response = Http::withHeaders($head)->post($url,$body);
+        ]; */
+        $response = $this->mlAuth('code', $code);//Http::withHeaders($head)->post($url,$body);
         $data['result'] = ($response->successful()) ? 'success' : 'danger';
         if ($response->successful()) {
             $data['msg'] = 'CUENTA VINCULADA EXITOSAMENTE';
@@ -72,5 +68,23 @@ class AccountsController extends Controller{
         $account->nickname = $data->input('cuenta');
         $account->save();
         return redirect('accounts');
+    }
+
+    public function mlAuth($authType, $code){
+        $method = '/oauth/token';
+        $head = [
+            'accept'=>'application/json',
+            'content-type'=>'application/x-www-form-urlencoded'
+        ];
+        $body = [
+            'grant_type'=>(($authType == 'code') ? 'authorization_'.$authType : $authType),
+            'client_id'=>Config::get('constants.APP_ID_ML'),
+            'client_secret'=>Config::get('constants.SECRET_KEY'),
+            $authType=>$code
+        ];
+        if ($authType == 'code') {
+            $body['redirect_uri']=Config::get('constants.redirect_URI');
+        }
+        return $this->mlPostRequest($head, $body, $method);
     }
 }
