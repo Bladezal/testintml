@@ -22,6 +22,6 @@ class Controller extends BaseController{
     }
 
     public function mlPostRequest($head, $body, $method){
-        return Http::withHeaders($head)->post(($this->baseURL.$method),$body)
+        return Http::withHeaders($head)->post(($this->baseURL.$method),$body);
     }
 }
