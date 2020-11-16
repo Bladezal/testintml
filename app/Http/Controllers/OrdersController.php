@@ -27,8 +27,6 @@ class OrdersController extends Controller{
             $account = $this->refreshToken($account);
             $resultado = json_decode($this->mlGetRequest($account->access_token,'/orders/search?',('seller='.$account->account_id)));
         }
-        var_dump($resultado);
-        die('---');
         $offset = 0;
         $limit = intval($resultado->paging->limit);
         $total = intval($resultado->paging->total);
