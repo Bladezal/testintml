@@ -100,6 +100,8 @@ class OrdersController extends Controller{
         $result = redirect()->action([AccountsController::class, 'mlAuth'],
                                      ['authType'=>'refresh_token','code',$account->refresh_token]);
         $resultado = json_decode($result);
+        var_dump($resultado);
+        die('---');
         $account->refresh_token = $resultado->refresh_token;
         $account->access_token = $resultado->access_token;
         $account->save();
