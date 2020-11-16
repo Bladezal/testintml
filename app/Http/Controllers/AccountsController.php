@@ -42,7 +42,8 @@ class AccountsController extends Controller{
             'code'=>$code,
             'redirect_uri'=>Config::get('constants.redirect_URI')
         ]; */
-        $response = $this->mlAuth('code', $code);//Http::withHeaders($head)->post($url,$body);
+        $params = $this->prepareMLAuth('code', $code);
+        $response = $this->mlPostRequest($params['head'],$params['body'],$params['method']);//Http::withHeaders($head)->post($url,$body);
         $data['result'] = ($response->successful()) ? 'success' : 'danger';
         if ($response->successful()) {
             $data['msg'] = 'CUENTA VINCULADA EXITOSAMENTE';
@@ -70,21 +71,4 @@ class AccountsController extends Controller{
         return redirect('accounts');
     }
 
-    public function mlAuth($authType, $code){
-        $method = '/oauth/token';
-        $head = [
-            'accept'=>'application/json',
-            'content-type'=>'application/x-www-form-urlencoded'
-        ];
-        $body = [
-            'grant_type'=>(($authType == 'code') ? 'authorization_'.$authType : $authType),
-            'client_id'=>Config::get('constants.APP_ID_ML'),
-            'client_secret'=>Config::get('constants.SECRET_KEY'),
-            $authType=>$code
-        ];
-        if ($authType == 'code') {
-            $body['redirect_uri']=Config::get('constants.redirect_URI');
-        }
-        return $this->mlPostRequest($head, $body, $method);
-    }
 }

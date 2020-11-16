@@ -24,4 +24,22 @@ class Controller extends BaseController{
     public function mlPostRequest($head, $body, $method){
         return Http::withHeaders($head)->post(($this->baseURL.$method),$body);
     }
+
+    public function prepareMLAuth($authType, $code){
+        $method = '/oauth/token';
+        $head = [
+            'accept'=>'application/json',
+            'content-type'=>'application/x-www-form-urlencoded'
+        ];
+        $body = [
+            'grant_type'=>(($authType == 'code') ? 'authorization_'.$authType : $authType),
+            'client_id'=>Config::get('constants.APP_ID_ML'),
+            'client_secret'=>Config::get('constants.SECRET_KEY'),
+            $authType=>$code
+        ];
+        if ($authType == 'code') {
+            $body['redirect_uri']=Config::get('constants.redirect_URI');
+        }
+        return ['head' => $head, 'body' => $body, 'method' => $method];
+    }
 }

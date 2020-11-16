@@ -97,8 +97,8 @@ class OrdersController extends Controller{
     }
 
     public function refreshToken($account){
-        $result = redirect()->action([AccountsController::class, 'mlAuth'],
-                                     ['authType'=>'refresh_token','code',$account->refresh_token]);
+        $params = $this->prepareMLAuth('refresh_token',$account->refresh_token);
+        $result = $this->mlPostRequest($params['head'],$params['body'],$params['method']);
         $resultado = $result->json();
         var_dump($resultado);
         die('---');
