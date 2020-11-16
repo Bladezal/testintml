@@ -32,7 +32,7 @@ class OrdersController extends Controller{
         $total = intval($resultado->paging->total);
         while ($offset < $total) {
             $resultado = ($offset > 0) ? 
-                         $this->mlRequest($account->access_token,
+                         $this->mlGetRequest($account->access_token,
                                           '/orders/search?',
                                           ('seller='.$account->account_id).'&offset='.$offset) : 
                          $resultado; 
@@ -53,7 +53,7 @@ class OrdersController extends Controller{
                 $orden->reason_order = rtrim(implode(',',$reason),',');
                 /*$shipping = Http::withToken($account->access_token)
                             ->get(Config::get('constants.base_ML_URI').'/shipments/'.$order->shipping->id);*/
-                $shipping_detail = $this->mlRequest($account->access_token,'/shipments/',$order->shipping->id);//json_decode($shipping);
+                $shipping_detail = $this->mlGetRequest($account->access_token,'/shipments/',$order->shipping->id);//json_decode($shipping);
                 $orden->shipping_type_order = $shipping_detail->shipping_option->name;
                 $orden->save();
             }
