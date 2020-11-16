@@ -33,3 +33,4 @@ Route::get('orderdetail/{id}',[OrdersController::class, 'getOrderDetail']);
 Route::get('status',[StatusController::class, 'index']);
 Route::post('status/add', [StatusController::class, 'addStatus']);
 Route::post('orderupdate', [OrdersController::class, 'upd_order']);
+Route::match(['get', 'post'],'mlAuth', [AccountsController::class, 'mlAuth']);

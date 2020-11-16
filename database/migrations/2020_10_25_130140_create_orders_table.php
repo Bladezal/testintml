@@ -25,6 +25,7 @@ class CreateOrdersTable extends Migration
             $table->json('detail_order')->nullable();
             $table->text('notes',500)->nullable();
             $table->foreignId('intl_status')->nullable();
+            $table->foreignId('id_account');
             $table->timestamps();
         });
     }
