@@ -54,6 +54,8 @@ class OrdersController extends Controller{
                 /*$shipping = Http::withToken($account->access_token)
                             ->get(Config::get('constants.base_ML_URI').'/shipments/'.$order->shipping->id);*/
                 $shipping_detail = json_decode($this->mlGetRequest($account->access_token,'/shipments/',$order->shipping->id));//json_decode($shipping);
+                print_r($shipping_detail);
+                die('---');
                 $orden->shipping_type_order = $shipping_detail->shipping_option->name;
                 $orden->save();
             }
