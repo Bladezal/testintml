@@ -52,7 +52,7 @@ class OrdersController extends Controller{
                 $orden['reason_order'] = rtrim(implode(',',$reason),',');
                 $shipping_detail = json_decode($this->mlGetRequest($account->access_token,'/shipments/',$order->shipping->id));
                 $orden['shipping_type_order'] = !empty($shipping_detail->shipping_option->name) ? $shipping_detail->shipping_option->name : null;
-                $orders[] = $orden
+                $orders[] = $orden;
             }
             $offset += ($limit + 1); 
         }
