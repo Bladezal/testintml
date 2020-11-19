@@ -7,8 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\Status;
 use App\Models\StatusHistory;
-use Illuminate\Support\Facades\Config;
-use App\Http\Controllers\AccountsController;
+use Illuminate\Support\Facades\DB;
 
 class OrdersController extends Controller{
 
@@ -20,9 +19,7 @@ class OrdersController extends Controller{
     public function getMLOrders(Request $request){
         $account_id = $request->input('id_cuenta');
         $account = Account::find($account_id);
-        //$url = Config::get('constants.base_ML_URI').'/orders/search?';
-        //$response = Http::withToken($account->access_token)->get($url.'seller='.$account->account_id);
-        $resultado = json_decode($this->mlGetRequest($account->access_token,'/orders/search?',('seller='.$account->account_id)));//json_decode($response);
+        $resultado = json_decode($this->mlGetRequest($account->access_token,'/orders/search?',('seller='.$account->account_id)));
         if (isset($resultado->error) && $resultado->message = 'Invalid token') {
             $account = $this->refreshToken($account);
             $resultado = json_decode($this->mlGetRequest($account->access_token,'/orders/search?',('seller='.$account->account_id)));
@@ -30,6 +27,7 @@ class OrdersController extends Controller{
         $offset = 0;
         $limit = intval($resultado->paging->limit);
         $total = intval($resultado->paging->total);
+        $orders = [];
         while ($offset < $total) {
             $resultado = ($offset > 0) ? 
                          json_decode($this->mlGetRequest($account->access_token,
@@ -37,29 +35,30 @@ class OrdersController extends Controller{
                                           ('seller='.$account->account_id).'&offset='.$offset)) : 
                          $resultado; 
             foreach ($resultado->results as $order) {
-                $orden = Order::create([
+                 
+                $orden = [
                     'id_order' => $order->id,
                     'date_created_order' => date('Y-m-d H:i:s', strtotime($order->date_created)),
                     'total_amount_order' => $order->total_amount,
                     'first_name_order' => $order->buyer->first_name,
                     'last_name_order' => $order->buyer->last_name
-                ]);
+                ];
                 $reason = [];
                 foreach ($order->order_items as $item) {
                     $reason[] = $item->item->title; 
                 }
                 $order_detail = json_encode($order->order_items);
-                $orden->detail_order = $order_detail;
-                $orden->reason_order = rtrim(implode(',',$reason),',');
-                /*$shipping = Http::withToken($account->access_token)
-                            ->get(Config::get('constants.base_ML_URI').'/shipments/'.$order->shipping->id);*/
-                $shipping_detail = json_decode($this->mlGetRequest($account->access_token,'/shipments/',$order->shipping->id));//json_decode($shipping);
-                $orden->shipping_type_order = !empty($shipping_detail->shipping_option->name) ? $shipping_detail->shipping_option->name : null;
-                $orden->save();
+                $orden['detail_order'] = $order_detail;
+                $orden['reason_order'] = rtrim(implode(',',$reason),',');
+                $shipping_detail = json_decode($this->mlGetRequest($account->access_token,'/shipments/',$order->shipping->id));
+                $orden['shipping_type_order'] = !empty($shipping_detail->shipping_option->name) ? $shipping_detail->shipping_option->name : null;
+                $orders[] = $orden
             }
             $offset += ($limit + 1); 
         }
-        
+        DB::table('ordenes')->insert($orders);
+        $account->migrated = true;
+        $account->save();
         return view('pages.orders.vincsuccess');
     }
 

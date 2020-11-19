@@ -22,6 +22,7 @@ class CreateAccountsTable extends Migration
             $table->dateTime('tkdate')->nullable();
             $table->char('refresh_token',100)->nullable();
             $table->dateTime('rftdate')->nullable();
+            $table->boolean('migrated')->default(false);
             $table->timestamps();
         });
     }

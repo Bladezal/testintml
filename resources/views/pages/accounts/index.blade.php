@@ -25,11 +25,17 @@
                                 <button type="submit" class="btn btn-primary">Vincular Cuenta</button>
                             </form>
                         @else
-                            <form name="obtenerpedidos" id="obtenerpedidos" method="post" action="{{url('getmlorders')}}">
-                                @csrf
-                                <input type="hidden" id="id_cuenta" name="id_cuenta" value="{{$account->id}}">
-                                <button type="submit" class="btn btn-success">Obtener Pedidos</button>
-                            </form>
+                            @if ($account->migrated)
+                                <div class="alert alert-success" role="alert">
+                                   Cuenta Vinculada.
+                                </div>
+                            @else
+                                <form name="obtenerpedidos" id="obtenerpedidos" method="post" action="{{url('getmlorders')}}">
+                                    @csrf
+                                    <input type="hidden" id="id_cuenta" name="id_cuenta" value="{{$account->id}}">
+                                    <button type="submit" class="btn btn-success">Obtener Pedidos</button>
+                                </form>
+                            @endif
                         @endif
                     </th>
                 </tr>

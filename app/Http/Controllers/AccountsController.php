@@ -30,20 +30,8 @@ class AccountsController extends Controller{
         $id_cuenta = $data->input('state');
         $account = Account::find($id_cuenta);
         $account->code = $code;
-        /* $url = Config::get('constants.base_ML_URI').'/oauth/token';
-        $head = [
-            'accept'=>'application/json',
-            'content-type'=>'application/x-www-form-urlencoded'
-        ];
-        $body = [
-            'grant_type'=>'authorization_code',
-            'client_id'=>Config::get('constants.APP_ID_ML'),
-            'client_secret'=>Config::get('constants.SECRET_KEY'),
-            'code'=>$code,
-            'redirect_uri'=>Config::get('constants.redirect_URI')
-        ]; */
         $params = $this->prepareMLAuth('code', $code);
-        $response = $this->mlPostRequest($params['head'],$params['body'],$params['method']);//Http::withHeaders($head)->post($url,$body);
+        $response = $this->mlPostRequest($params['head'],$params['body'],$params['method']);
         $data['result'] = ($response->successful()) ? 'success' : 'danger';
         if ($response->successful()) {
             $data['msg'] = 'CUENTA VINCULADA EXITOSAMENTE';
