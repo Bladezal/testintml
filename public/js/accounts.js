@@ -23,6 +23,9 @@ $(document).ready(function() {
                 success: function(data) {
                     if (data.result) {
                         total = data.total;
+                    }else{
+                        console.log(data.error);
+                        console.log(data.insert);
                     }
                 }
             });
