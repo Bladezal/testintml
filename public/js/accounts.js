@@ -5,6 +5,7 @@ $(document).ready(function() {
         var offset = 0;
         var migrado = 0;
         var total = 0;
+        var tmp = 0;
         $("#pbardiv").show();
         $("#obtped").hide();
         while (long < 100) {
@@ -25,10 +26,10 @@ $(document).ready(function() {
                     }
                 }
             });
-            if (long == 0) {
-                long = (limite * 100)/total;
+            if (tmp == 0) {
+                tmp = (limite * 100)/total;
             }
-            long += long;
+            long += tmp;
             offset += (limite + 1);
             if ((total-long) < ((limite * 100)/total)) {
                 migrado = 1;
