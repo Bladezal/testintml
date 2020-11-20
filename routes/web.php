@@ -27,7 +27,7 @@ Route::match(['get', 'post'],'accountauth', [AccountsController::class, 'account
 Route::get('addaccount',[AccountsController::class,'addAccount']);
 Route::post('save_account',[AccountsController::class,'saveAccount']);
 Route::get('accounts',[AccountsController::class,'index']);
-Route::post('getmlorders',[OrdersController::class,'getMLOrders']);
+Route::get('getmlorders',[OrdersController::class,'getMLOrders']);
 Route::get('jsonorder/{id}', [OrdersController::class, 'getJSONOrder']);
 Route::get('orderdetail/{id}',[OrdersController::class, 'getOrderDetail']);
 Route::get('status',[StatusController::class, 'index']);

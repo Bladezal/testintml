@@ -30,13 +30,13 @@
                                    Cuenta Vinculada.
                                 </div>
                             @else
-                                <form name="obtenerpedidos" id="obtenerpedidos" method="post" action="{{url('getmlorders')}}">
-                                    @csrf
-                                    <input type="hidden" id="id_cuenta" name="id_cuenta" value="{{$account->id}}">
-                                    <button type="submit" class="btn btn-success">Obtener Pedidos</button>
-                                </form>
+                                <input type="hidden" id="id_cuenta" name="id_cuenta" value="{{$account->id}}">
+                                <button type="submit" class="btn btn-success" id="obtped">Obtener Pedidos</button>
                             @endif
                         @endif
+                        <div class="progress" id="pbardiv" hidden>
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%" id="progressbar"></div>
+                        </div>
                     </th>
                 </tr>
             @endforeach

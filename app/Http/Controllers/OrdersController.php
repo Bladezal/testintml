@@ -18,48 +18,45 @@ class OrdersController extends Controller{
 
     public function getMLOrders(Request $request){
         $account_id = $request->input('id_cuenta');
+        $offset = $request->input('offset');
+        $limite = $request->input('limite');
+        $migrated = $request->input('migrado');
         $account = Account::find($account_id);
-        $resultado = json_decode($this->mlGetRequest($account->access_token,'/orders/search?',('seller='.$account->account_id)));
+        $resultado = json_decode($this->mlGetRequest($account->access_token,'/orders/search?',
+                                ('seller='.$account->account_id.'&offset='.$offset.'&limit='.$limite)));
         if (isset($resultado->error) && $resultado->message = 'Invalid token') {
             $account = $this->refreshToken($account);
-            $resultado = json_decode($this->mlGetRequest($account->access_token,'/orders/search?',('seller='.$account->account_id)));
+            $resultado = json_decode($this->mlGetRequest($account->access_token,'/orders/search?',
+                                    ('seller='.$account->account_id.'&offset='.$offset.'&limit='.$limite)));
         }
-        $offset = 0;
-        $limit = intval($resultado->paging->limit);
         $total = intval($resultado->paging->total);
         $orders = [];
-        while ($offset < $total) {
-            $resultado = ($offset > 0) ? 
-                         json_decode($this->mlGetRequest($account->access_token,
-                                          '/orders/search?',
-                                          ('seller='.$account->account_id).'&offset='.$offset)) : 
-                         $resultado; 
-            foreach ($resultado->results as $order) {
-                 
-                $orden = [
-                    'id_order' => $order->id,
-                    'date_created_order' => date('Y-m-d H:i:s', strtotime($order->date_created)),
-                    'total_amount_order' => $order->total_amount,
-                    'first_name_order' => $order->buyer->first_name,
-                    'last_name_order' => $order->buyer->last_name
-                ];
-                $reason = [];
-                foreach ($order->order_items as $item) {
-                    $reason[] = $item->item->title; 
-                }
-                $order_detail = json_encode($order->order_items);
-                $orden['detail_order'] = $order_detail;
-                $orden['reason_order'] = rtrim(implode(',',$reason),',');
-                $shipping_detail = json_decode($this->mlGetRequest($account->access_token,'/shipments/',$order->shipping->id));
-                $orden['shipping_type_order'] = !empty($shipping_detail->shipping_option->name) ? $shipping_detail->shipping_option->name : null;
-                $orders[] = $orden;
+        foreach ($resultado->results as $order) {
+            $orden = [
+                'id_order' => $order->id,
+                'date_created_order' => date('Y-m-d H:i:s', strtotime($order->date_created)),
+                'total_amount_order' => $order->total_amount,
+                'first_name_order' => $order->buyer->first_name,
+                'last_name_order' => $order->buyer->last_name,
+                'id_account' => $account_id
+            ];
+            $reason = [];
+            foreach ($order->order_items as $item) {
+                $reason[] = $item->item->title; 
             }
-            $offset += ($limit + 1); 
+            $order_detail = json_encode($order->order_items);
+            $orden['detail_order'] = $order_detail;
+            $orden['reason_order'] = rtrim(implode(',',$reason),',');
+            $shipping_detail = json_decode($this->mlGetRequest($account->access_token,'/shipments/',$order->shipping->id));
+            $orden['shipping_type_order'] = !empty($shipping_detail->shipping_option->name) ? $shipping_detail->shipping_option->name : null;
+            $orders[] = $orden;
         }
+        
+        
         DB::table('ordenes')->insert($orders);
-        $account->migrated = true;
+        $account->migrated = ($migrated == 0) ? false : true;
         $account->save();
-        return view('pages.orders.vincsuccess');
+        return response()->json(['result' => true, 'total' => $total]);
     }
 
     public function upd_order(Request $request){
