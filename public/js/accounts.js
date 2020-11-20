@@ -1,7 +1,7 @@
 $(document).ready(function() {
     $("#obtped").on("click", function() {
         var long = 0;
-        var limite = 100;
+        var limite = 50;
         var offset = 0;
         var migrado = 0;
         var total = 0;
