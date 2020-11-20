@@ -12,6 +12,7 @@ $(document).ready(function() {
             $.ajax({
                 url: localStorage.baseurl+'/getmlorders',
                 type: 'GET',
+                async: false,
                 data: {
                     id_cuenta: $("#id_cuenta").val(),
                     offset: offset,
