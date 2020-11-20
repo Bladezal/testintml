@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('jsscript')
+    <script src="{{asset('js/accounts.js')}}"></script>
+@endsection
+
 @section('content')
     <h2 class="mt-5">Listado de Cuentas </h2>
 
