@@ -10,7 +10,7 @@ $(document).ready(function() {
         while (long < 100) {
             $("#progressbar").width(long+'%');
             $.ajax({
-                url: ocalStorage.baseurl+'/getmlorders',
+                url: localStorage.baseurl+'/getmlorders',
                 type: 'GET',
                 data: {
                     id_cuenta: $("#id_cuenta").val(),
