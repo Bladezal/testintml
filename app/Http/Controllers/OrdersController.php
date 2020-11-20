@@ -24,6 +24,8 @@ class OrdersController extends Controller{
         $account = Account::find($account_id);
         $resultado = json_decode($this->mlGetRequest($account->access_token,'/orders/search?',
                                 ('seller='.$account->account_id.'&offset='.$offset.'&limit='.$limite)));
+        var_dump($resultado);
+        die();
         if (isset($resultado->error) && $resultado->message = 'Invalid token') {
             $account = $this->refreshToken($account);
             $resultado = json_decode($this->mlGetRequest($account->access_token,'/orders/search?',
