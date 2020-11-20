@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\Status;
 use App\Models\StatusHistory;
+use Exception;
 use Illuminate\Support\Facades\DB;
 
 class OrdersController extends Controller{
@@ -52,11 +53,15 @@ class OrdersController extends Controller{
             $orders[] = $orden;
         }
         
+        try {
+            DB::table('ordenes')->insert($orders);
+            $account->migrated = ($migrated == 0) ? false : true;
+            $account->save();
+            return response()->json(['result' => true, 'total' => $total]);
+        } catch (Exception $e) {
+            return response()->json(['result' => false, 'error' => $e->getMessage(),'insert' => json_encode($orders)]);
+        }
         
-        DB::table('ordenes')->insert($orders);
-        $account->migrated = ($migrated == 0) ? false : true;
-        $account->save();
-        return response()->json(['result' => true, 'total' => $total]);
     }
 
     public function upd_order(Request $request){

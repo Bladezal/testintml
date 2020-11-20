@@ -9,7 +9,7 @@ $(document).ready(function() {
         $("#pbardiv").show();
         $("#obtped").hide();
         while (long < 100) {
-            $("#progressbar").width(long+'%');
+            $("#progressbar").css('width',long+'%');
             $.ajax({
                 url: localStorage.baseurl+'/getmlorders',
                 type: 'GET',
@@ -28,9 +28,10 @@ $(document).ready(function() {
             });
             if (tmp == 0) {
                 tmp = (limite * 100)/total;
+                offset = 1;
             }
             long += tmp;
-            offset += (limite + 1);
+            offset += limite;
             if ((total-long) < ((limite * 100)/total)) {
                 migrado = 1;
             }
