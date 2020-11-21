@@ -40,6 +40,6 @@ $(document).ready(function() {
                 migrado = 1;
             }
         }
-        location.reload();
+        //location.reload();
     });
 });
