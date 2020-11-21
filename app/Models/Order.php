@@ -17,7 +17,8 @@ class Order extends Model{
         'currency_id',
         'first_name_order',
         'last_name_order',
-        'shipping_id_order'
+        'shipping_id_order',
+        'id_account'
     ];
     protected $hidden = ['id', 'created_at', 'updated_at'];
 }
