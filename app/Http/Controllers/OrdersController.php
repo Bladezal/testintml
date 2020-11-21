@@ -53,7 +53,7 @@ class OrdersController extends Controller{
             try {
                 $order = Order::create($orden);
             } catch (Exception $e) {
-                $errors[] = ['error'=>$e->getMessage,'orden'=>$orden];
+                $errors[] = ['error'=>$e->getMessage(),'orden'=>$orden];
             }
             
         }
