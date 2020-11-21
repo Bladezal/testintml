@@ -1,16 +1,15 @@
 $(document).ready(function() {
     $("#obtped").on("click", function() {
+        $("#obtped").prop('disabled', true);
+        $("#obtped").empty();
+        $("#obtped").append('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Cargando...');
         var long = 0;
         var limite = 50;
         var offset = 0;
         var migrado = 0;
         var total = 0;
         var tmp = 0;
-        $("#obtped").prop('disabled', true)
-                    .empty()
-                    .append('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Cargando...');
         while (long < 100) {
-
             $.ajax({
                 url: localStorage.baseurl+'/getmlorders',
                 type: 'GET',
