@@ -58,8 +58,11 @@ class OrdersController extends Controller{
             
         }
         
-        $account->migrated = ($migrated == 0) ? false : true;
-        $account->save();
+        if ($migrated != $account->migrated) {
+            $account->migrated = $migrated;
+            $account->save();
+        }
+                
         return response()->json(['result' => true, 'total' => $total, 'errores' => (!empty($errors) ? $errors : 0)]);       
     }
 

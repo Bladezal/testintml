@@ -6,9 +6,9 @@ $(document).ready(function() {
         var migrado = 0;
         var total = 0;
         var tmp = 0;
-        $("#pbardiv").show();
-        $("#obtped").hide();
-        var bar = $("#progressbar");
+        $("#obtped").prop('disabled', true)
+                    .empty()
+                    .append('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Cargando...');
         while (long < 100) {
 
             $.ajax({
@@ -29,7 +29,6 @@ $(document).ready(function() {
                             long = 100;
                         }
                     }
-                    bar.css('width',long+'%');
                 }
             });
             if (tmp == 0) {
@@ -38,7 +37,7 @@ $(document).ready(function() {
             }
             long += tmp;
             offset += limite;
-            if ((total-long) < ((limite * 100)/total)) {
+            if ((total-offset) <= limite) {
                 migrado = 1;
             }
         }

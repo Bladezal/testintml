@@ -11,13 +11,12 @@ class Order extends Model{
     protected $fillable = [
         'id_order',
         'date_created_order',
-        'date_closed_order',
-        'status_order',
         'total_amount_order',
-        'currency_id',
+        'reason_order',
         'first_name_order',
         'last_name_order',
-        'shipping_id_order',
+        'shipping_type_order',
+        'detail_order',
         'id_account'
     ];
     protected $hidden = ['id', 'created_at', 'updated_at'];
