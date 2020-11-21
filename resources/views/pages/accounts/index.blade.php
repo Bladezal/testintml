@@ -39,7 +39,9 @@
                             @endif
                         @endif
                         <div class="progress" id="pbardiv" hidden>
-                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%" id="progressbar"></div>
+                            <div class="progress-bar progress-bar-striped bg-success" 
+                                 role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" 
+                                 style="width: 0%" id="pgbar"></div>
                         </div>
                     </th>
                 </tr>
