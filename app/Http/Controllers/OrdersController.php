@@ -31,7 +31,7 @@ class OrdersController extends Controller{
                                     ('seller='.$account->account_id.'&offset='.$offset.'&limit='.$limite)));
         }
         $total = intval($resultado->paging->total);
-        $orders = [];
+        $errors = [];
         foreach ($resultado->results as $order) {
             $orden = [
                 'id_order' => $order->id,
@@ -50,18 +50,17 @@ class OrdersController extends Controller{
             $orden['reason_order'] = rtrim(implode(',',$reason),',');
             $shipping_detail = json_decode($this->mlGetRequest($account->access_token,'/shipments/',$order->shipping->id));
             $orden['shipping_type_order'] = !empty($shipping_detail->shipping_option->name) ? $shipping_detail->shipping_option->name : null;
-            $orders[] = $orden;
+            try {
+                $order = Order::create($orden);
+            } catch (Exception $e) {
+                $errors[] = ['error'=>$e->getMessage,'orden'=>$orden];
+            }
+            
         }
         
-        try {
-            DB::table('ordenes')->insert($orders);
-            $account->migrated = ($migrated == 0) ? false : true;
-            $account->save();
-            return response()->json(['result' => true, 'total' => $total]);
-        } catch (Exception $e) {
-            return response()->json(['result' => false, 'error' => $e->getMessage(),'insert' => json_encode($orders)]);
-        }
-        
+        $account->migrated = ($migrated == 0) ? false : true;
+        $account->save();
+        return response()->json(['result' => true, 'total' => $total, 'errores' => (!empty($errors) ? $errors : 0)]);       
     }
 
     public function upd_order(Request $request){

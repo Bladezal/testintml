@@ -9,7 +9,6 @@ $(document).ready(function() {
         $("#pbardiv").show();
         $("#obtped").hide();
         while (long < 100) {
-            $("#progressbar").css('width',long+'%');
             $.ajax({
                 url: localStorage.baseurl+'/getmlorders',
                 type: 'GET',
@@ -23,10 +22,11 @@ $(document).ready(function() {
                 success: function(data) {
                     if (data.result) {
                         total = data.total;
-                    }else{
-                        console.log(data.error);
-                        console.log(data.insert);
+                        if (data.errores) {
+                            console.log(data.errores)
+                        }
                     }
+                    $("#progressbar").css('width',long+'%');
                 }
             });
             if (tmp == 0) {
