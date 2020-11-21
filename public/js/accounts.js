@@ -23,7 +23,8 @@ $(document).ready(function() {
                     if (data.result) {
                         total = data.total;
                         if (data.errores) {
-                            console.log(data.errores)
+                            console.log(data.errores);
+                            long = 100;
                         }
                     }
                     $("#progressbar").css('width',long+'%');
