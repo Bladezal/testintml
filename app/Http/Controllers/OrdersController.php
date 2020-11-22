@@ -45,7 +45,7 @@ class OrdersController extends Controller{
             foreach ($order->order_items as $item) {
                 $reason[] = $item->item->title; 
             }
-            $order_detail = json_encode($order->order_items);
+            $order_detail = json_encode($order->order_items, JSON_UNESCAPED_UNICODE);
             $orden['detail_order'] = $order_detail;
             $orden['reason_order'] = rtrim(implode(',',$reason),',');
             $shipping_detail = json_decode($this->mlGetRequest($account->access_token,'/shipments/',$order->shipping->id));
