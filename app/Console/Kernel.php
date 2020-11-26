@@ -30,7 +30,7 @@ class Kernel extends ConsoleKernel
         $schedule->call(function(){
             $accounts = Account::all();
             $baseURL = Config::get('constants.base_ML_URI');
-            $from = date('Y-m-dTH:i:s',strtotime("-5 minutes"));
+            $from = date('Y-m-dTH:i:s',strtotime("-10 minutes"));
             $to = date('Y-m-dTH:i:s',strtotime("now"));
             $params = '&order.date_created.from='.$from.'&order.date_created.to='.$to;
             foreach ($accounts as $account) {
