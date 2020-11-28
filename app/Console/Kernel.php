@@ -62,7 +62,8 @@ class Kernel extends ConsoleKernel
                     $orders = json_decode($orders_json);
                 }
                 foreach ($orders->results as $order) {
-                    if (!Order::where('id_order',$order->id)->get()) {
+                    $exist = Order::where('id_order',$order->id)->get();
+                    if (empty($exist)) {
                         $orden = [
                             'id_order' => $order->id,
                             'date_created_order' => date('Y-m-d H:i:s', strtotime($order->date_created)),
