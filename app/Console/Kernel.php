@@ -28,10 +28,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule){
         $schedule->call(function(){
+            date_default_timezone_set('America/Argentina/Buenos_Aires');
             $accounts = Account::all();
             $baseURL = Config::get('constants.base_ML_URI');
-            $from = date('Y-m-dTH:i:s',strtotime("-10 minutes"));
-            $to = date('Y-m-dTH:i:s',strtotime("now"));
+            $from = date('Y-m-d\TH:i:s.vP',strtotime("-10 minutes"));
+            $to = date('Y-m-d\TH:i:s.vP',strtotime("now"));
             $params = '&order.date_created.from='.$from.'&order.date_created.to='.$to;
             foreach ($accounts as $account) {
                 $orders_json = Http::withToken($account->access_token)
@@ -49,7 +50,7 @@ class Kernel extends ConsoleKernel
                         'client_secret'=>Config::get('constants.SECRET_KEY'),
                         'refresh_token'=>$account->refresh_token
                     ];
-                    $response = Http::withHeaders($head)->post(($this->baseURL.$method),$body);
+                    $response = Http::withHeaders($head)->post(($baseURL.$method),$body);
                     $resultado = $response->json();
                     $account->refresh_token = $resultado['refresh_token'];
                     $account->access_token = $resultado['access_token'];
@@ -82,7 +83,7 @@ class Kernel extends ConsoleKernel
                     $pedido = Order::create($orden);
                 }
             }
-        })->everyFiveMinutes()->runInBackground();
+        })->runInBackground(); //->everyFiveMinutes()
     }
 
     /**
