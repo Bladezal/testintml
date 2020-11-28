@@ -62,25 +62,27 @@ class Kernel extends ConsoleKernel
                     $orders = json_decode($orders_json);
                 }
                 foreach ($orders->results as $order) {
-                    $orden = [
-                        'id_order' => $order->id,
-                        'date_created_order' => date('Y-m-d H:i:s', strtotime($order->date_created)),
-                        'total_amount_order' => $order->total_amount,
-                        'first_name_order' => $order->buyer->first_name,
-                        'last_name_order' => $order->buyer->last_name,
-                        'id_account' => $account->id
-                    ];
-                    $reason = [];
-                    foreach ($order->order_items as $item) {
-                        $reason[] = $item->item->title; 
+                    if (!Order::where('id_order',$order->id)->get()) {
+                        $orden = [
+                            'id_order' => $order->id,
+                            'date_created_order' => date('Y-m-d H:i:s', strtotime($order->date_created)),
+                            'total_amount_order' => $order->total_amount,
+                            'first_name_order' => $order->buyer->first_name,
+                            'last_name_order' => $order->buyer->last_name,
+                            'id_account' => $account->id
+                        ];
+                        $reason = [];
+                        foreach ($order->order_items as $item) {
+                            $reason[] = $item->item->title; 
+                        }
+                        $order_detail = json_encode($order->order_items, JSON_UNESCAPED_UNICODE);
+                        $orden['detail_order'] = $order_detail;
+                        $orden['reason_order'] = rtrim(implode(',',$reason),',');
+                        $shipping_detail = json_decode(Http::withToken($account->access_token)
+                                                             ->get($baseURL.'/shipments/'.$order->shipping->id));
+                        $orden['shipping_type_order'] = !empty($shipping_detail->shipping_option->name) ? $shipping_detail->shipping_option->name : null;
+                        $pedido = Order::create($orden);
                     }
-                    $order_detail = json_encode($order->order_items, JSON_UNESCAPED_UNICODE);
-                    $orden['detail_order'] = $order_detail;
-                    $orden['reason_order'] = rtrim(implode(',',$reason),',');
-                    $shipping_detail = json_decode(Http::withToken($account->access_token)
-                                                         ->get($baseURL.'/shipments/'.$order->shipping->id));
-                    $orden['shipping_type_order'] = !empty($shipping_detail->shipping_option->name) ? $shipping_detail->shipping_option->name : null;
-                    $pedido = Order::create($orden);
                 }
             }
         })->runInBackground(); //->everyFiveMinutes()
